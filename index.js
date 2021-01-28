@@ -15,7 +15,7 @@ const stm = new Statemachine([
 	}
 ])
 
-const t = new Turingmachine(stm, "BaabcaB")
+const t = new Turingmachine(stm, "aabca")
 console.log(t.toString())
 t.run()
 console.log(t.toString())
