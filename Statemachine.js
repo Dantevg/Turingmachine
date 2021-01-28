@@ -1,13 +1,13 @@
 export default class Statemachine {
-	constructor(states = []){
+	constructor(states = {}, initial = "0"){
 		this.states = states
-		this.state = 0
+		this.state = initial
 	}
 	
 	next(input){
 		const c = this.states[this.state]?.[input]
 		if(c == undefined) return []
-		this.state = c.state
+		this.state = c.state.toString()
 		return [c.replace, c.direction]
 	}
 	
@@ -20,12 +20,12 @@ export default class Statemachine {
 		return state
 	}
 	
-	static parse(...states){
-		const stm = []
-		for(const state of states){
-			stm.push(Statemachine.parseState(...state))
+	static parse(states, initial){
+		const stm = {}
+		for(const state in states){
+			stm[state] = Statemachine.parseState(...states[state])
 		}
-		return new Statemachine(stm)
+		return new Statemachine(stm, initial)
 	}
 	
 }
