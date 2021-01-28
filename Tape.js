@@ -9,7 +9,7 @@ export default class Tape {
 	}
 	
 	get(track = 0){
-		if(!this.tracks[track]) return null // TODO: return proper error
+		if(!this.tracks[track]) throw "No such track"
 		return this.tracks[track][this.head] ?? this.blankElem
 	}
 	
@@ -22,7 +22,7 @@ export default class Tape {
 	}
 	
 	put(value, track = 0){
-		if(track > this.tracks.length) return false // TODO: return proper error
+		if(!this.tracks[track]) throw "No such track"
 		if(value == undefined || value == this.blankElem){
 			this.tracks[track][this.head] = undefined
 		}else{
@@ -39,14 +39,18 @@ export default class Tape {
 		}
 	}
 	
-	goRight = () => ++this.head
+	goRight(){
+		this.head++
+		return true
+	}
 	goLeft(){
-		if(this.head == 0) return null // TODO: return proper error
-		return --this.head
+		if(this.head == 0) return false // Fall off left edge
+		this.head--
+		return true
 	}
 	go(direction){
-		if(direction == "R") this.goRight()
-		if(direction == "L") this.goLeft()
+		if(direction == "R") return this.goRight()
+		if(direction == "L") return this.goLeft()
 	}
 	
 	toString(){

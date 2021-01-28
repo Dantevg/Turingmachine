@@ -16,7 +16,7 @@ export default class Turingmachine {
 		const [replace, direction] = this.stm.next(this.tapes[0].get())
 		if(replace != undefined){
 			this.tapes[0].put(replace)
-			this.tapes[0].go(direction)
+			if(!this.tapes[0].go(direction)) this.active = false
 		}else{
 			this.active = false
 		}
@@ -24,11 +24,7 @@ export default class Turingmachine {
 	}
 	
 	run(){
-		while(this.active){
-			this.step()
-			// console.log(this.tapes[0].toString())
-			// console.log(this.toString())
-		}
+		while(this.active) this.step()
 	}
 	
 	toString(){
