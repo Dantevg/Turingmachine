@@ -5,7 +5,7 @@ export default class Statemachine {
 	}
 	
 	next(input){
-		const c = this.states[this.state]?.[input]
+		const c = this.states[this.state]?.[input.toString()]
 		if(c == undefined) return []
 		this.state = c.state.toString()
 		return [c.replace, c.direction]
@@ -14,8 +14,14 @@ export default class Statemachine {
 	static parseState(...transitions){
 		let state = {}
 		for(const transition of transitions){
-			const [_, read, replace, direction] = transition[0].match(/(.)\/(.)(.)/)
-			state[read] = {state: transition[1], replace: replace, direction: direction}
+			const [read, replace, direction] = [[], [], []]
+			for(let i = 1; i < transition.length; i++){
+				const [_, readi, replacei, directioni] = transition[i].match(/(.)\/(.)(.)/)
+				read.push(readi)
+				replace.push(replacei)
+				direction.push(directioni)
+			}
+			state[read.toString()] = {state: transition[0], replace: replace, direction: direction}
 		}
 		return state
 	}

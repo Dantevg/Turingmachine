@@ -16,7 +16,7 @@ export default class Tape {
 	getAll(){
 		let values = []
 		for(const track of this.tracks){
-			values.push(track[this.head])
+			values.push(track[this.head] ?? this.blankElem)
 		}
 		return values
 	}
@@ -51,18 +51,24 @@ export default class Tape {
 	go(direction){
 		if(direction == "R") return this.goRight()
 		if(direction == "L") return this.goLeft()
+		if(direction == "S") return true
 	}
 	
 	toString(){
-		let length = this.tracks.reduce((a,b) => Math.max(a,b.length), 0)
+		let length = Math.max(this.head+1, this.tracks.reduce((a,b) => Math.max(a,b.length), 0))
 		let str = ""
 		for(const track of this.tracks){
-			for(const value of track){
-				str += value ?? " "
+			for(let i = 0; i < length; i++){
+				if(i == this.head) str += Tape.style_underline
+				str += track[i] ?? " "
+				if(i == this.head) str += Tape.style_reset
 			}
 			str += "\n"
 		}
 		return str.substring(0, str.length-1)
 	}
+	
+	static style_reset = "\x1b[0m"
+	static style_underline = "\x1b[4m"
 	
 }

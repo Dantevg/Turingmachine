@@ -13,26 +13,32 @@ export default class Turingmachine {
 	
 	step(){
 		if(!this.active) return false
-		const [replace, direction] = this.stm.next(this.tapes[0].get())
+		const contents = this.tapes.reduce((a,b) => {a.push(b.get()); return a}, [])
+		const [replace, direction] = this.stm.next(contents.toString())
 		if(replace != undefined){
-			this.tapes[0].put(replace)
-			if(!this.tapes[0].go(direction)) this.active = false
+			this.tapes.forEach((tape, i) => {
+				tape.put(replace[i])
+				if(!tape.go(direction[i])) this.active = false
+			})
 		}else{
 			this.active = false
 		}
 		return this.active
 	}
 	
-	run(){
-		while(this.active) this.step()
+	run(log){
+		while(this.active){
+			if(log) console.log(this.stm.state, "\n"+this.toString())
+			this.step()
+		}
 	}
 	
 	toString(){
-		let str = ""
-		for(let t in this.tapes){
-			str += `Tape ${t} @ ${this.tapes[t].head}:` + this.tapes[t].toString()
+		const strs = []
+		for(let t = this.tapes.length-1; t >= 0; t--){
+			strs.push(this.tapes[t].toString())
 		}
-		return str
+		return strs.join("\n")
 	}
 	
 }
