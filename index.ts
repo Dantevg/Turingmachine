@@ -34,9 +34,16 @@ const palindromes = Statemachine.parse({
 	3: [[3, "a/aL", "B/aL"], [3, "b/bL", "B/bL"], [4, "a/aS", "#/#R"], [4, "b/bS", "#/#R"]],
 	4: [[4, "a/aL", "a/aR"], [4, "b/bL", "b/bR"]],
 	5: [[5, "a/aL", "B/aL"], [5, "b/bL", "B/bL"], [6, "a/aS", "#/#R"], [6, "b/bS", "#/#R"]],
-	6: [[4, "a/aL", "a/aR"], [4, "a/aL", "b/bR"], [4, "b/bL", "a/aR"], [4, "b/bL", "b/bR"], ],
+	6: [[4, "a/aL", "a/aR"], [4, "a/aL", "b/bR"], [4, "b/bL", "a/aR"], [4, "b/bL", "b/bR"]],
 })
 
-const t = new Turingmachine(palindromes, "abba", "B", 2)
+const stm_alternate = Statemachine.parse({
+	0: [[1, "B/BR"]],
+	1: [[2, "B/BL"], [1, "a/aR"], [1, "b/bR"], [1, "c/cR"]],
+	2: [[2, "a/cL"], [2, "b/bL"], [2, "c/bL"]],
+})
+
+// const t = new Turingmachine(palindromes, "abba", "B", 2)
+const t = new Turingmachine(stm_alternate, "aabca")
 t.run(true)
 console.log(t.tapes[0].head == 0)

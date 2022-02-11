@@ -1,0 +1,9 @@
+{
+	"end_with_newline": true,
+	"indent_with_tabs": true,
+	"indent_empty_lines": true,
+	"extra_liners": [],
+	"operator_position": "after-newline",
+	"wrap_line_length": 80,
+	"max_preserve_newlines": 4
+}
