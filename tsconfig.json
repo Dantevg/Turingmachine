@@ -5,7 +5,7 @@
 		"jsx": "preserve",
 		"strictFunctionTypes": true,
 		"sourceMap": true,
-		"outDir": "js"
+		"outDir": "out"
 	},
 	"exclude": [
 		"node_modules",
